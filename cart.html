@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <h1>this is cart page</h1>
+    <div id="mainSection"></div>
+    <script>
+ let productData
+ function Fetchdata(){
+    const store=fetch("https://backend-data-2ujr.onrender.com/cart")
+    .then((res)=>res.json())
+    .then((data)=>{
+     cardList(data)
+     productData=data
+    })
+    .catch((err)=>console.log(err));
+    }
+Fetchdata()
+      
+function cardList(data){
+    const store=data.map((el)=>card(el.id,el.image,el.title,el.price,el.founder,el.category,el.description))
+ document.getElementById("mainSection").innerHTML=store.join("");
+}
+
+ function card(id,image,title,price,founder,category,description){
+  
+  let singlecard=`
+  <a href="page2.html?title=${encodeURIComponent(title)}&image=${encodeURIComponent(image)}&price=${encodeURIComponent(price)}&founder=${encodeURIComponent(founder)}&category=${encodeURIComponent(category)}&id=${id}&description=${encodeURIComponent(description)}"
+  <div class="card" data-id=${id}>
+  <div class="card-img">
+   <img src="${image}" alt="">
+  <div class="card-body">
+   <h4 class="card-title">${title}</h4>
+   <p class="card-founder">${founder}</p> 
+   <p class="card-price">${price}</p>
+   <p class="card-description">${description}</p>
+   <p class="card-category">${category}</p>
+   <a href="" class="card-link" data-id=${id}>Edit</a>
+   <button class="card-button" data-id=${id}>Delete</button>
+ </div> 
+ </div>
+ </div>
+ </a>
+  `
+return singlecard;
+}
+    </script>
+</body>
+</html>
